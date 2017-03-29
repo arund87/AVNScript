@@ -5,15 +5,19 @@ import java.util.concurrent.TimeUnit;
 //import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 //import org.openqa.selenium.chrome.ChromeDriver;
 //import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;	
 
 public class Functionaltest {
 	
 	public WebDriver driver;
+	public WebDriverWait wait;
 	public String URL="http://ec2-54-254-182-212.ap-southeast-1.compute.amazonaws.com:8080/arun";
 	public String URL1="http://ec2-54-254-182-212.ap-southeast-1.compute.amazonaws.com:8080/arun/avncreatepage.jsp";
 	
@@ -27,6 +31,7 @@ public class Functionaltest {
 		File file = new File("./lib/phantomjs211/bin/phantomjs.exe");
 		System.setProperty("phantomjs.binary.path", file.getAbsolutePath());
 		driver = new PhantomJSDriver();
+		wait = new WebDriverWait(driver, 5000);
 		driver.get(URL);
 		driver.manage().timeouts().implicitlyWait(3000, TimeUnit.SECONDS);
 		//Login Page content check
@@ -45,15 +50,19 @@ public class Functionaltest {
 	@Test(priority=1)
 	public void viewrepairticket() throws Exception
 	{
-		driver.findElement(By.xpath("//h2[text()='WELCOME TO YOUR ACCOUNT OVERVIEW']")).isDisplayed();
+		WebElement welcome = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='WELCOME TO YOUR ACCOUNT OVERVIEW']")));
+		welcome.isDisplayed();
 		driver.manage().timeouts().implicitlyWait(3000, TimeUnit.SECONDS);
 		driver.get(URL1);
 		driver.manage().timeouts().implicitlyWait(3000, TimeUnit.SECONDS);
-		driver.findElement(By.xpath("//font[text()='Create Repair Ticket']")).isDisplayed();
-		driver.findElement(By.xpath("//button[text()='Cancel']")).click();
+		WebElement repair = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//font[text()='Create Repair Ticket']")));
+		repair.isDisplayed();
+		WebElement cancel = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Cancel']")));
+		cancel.click();
 		driver.manage().timeouts().implicitlyWait(3000, TimeUnit.SECONDS);
 		Thread.sleep(3000);
-		driver.findElement(By.xpath("//h2[text()='Repair Ticket Page']")).isDisplayed();	
+		WebElement repair1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='Repair Ticket Page']")));
+		repair1.isDisplayed();	
 	}
 	
 	@Test(priority=2)
