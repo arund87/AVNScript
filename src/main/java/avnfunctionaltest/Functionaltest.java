@@ -1,13 +1,15 @@
 package avnfunctionaltest;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
-
+//import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 //import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+//import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;	
 
 public class Functionaltest {
 	
@@ -18,9 +20,13 @@ public class Functionaltest {
 	@Test(priority=0)
 	public void logintest()
 	{
-		driver=new FirefoxDriver();
+		//driver=new FirefoxDriver();
 		//System.setProperty("webdriver.chrome.driver", "./lib/chromedriver.exe");
 		//driver = new ChromeDriver();
+		//driver = new HtmlUnitDriver();
+		File file = new File("./lib/phantomjs211/bin/phantomjs.exe");
+		System.setProperty("phantomjs.binary.path", file.getAbsolutePath());
+		driver = new PhantomJSDriver();
 		driver.get(URL);
 		driver.manage().timeouts().implicitlyWait(3000, TimeUnit.SECONDS);
 		//Login Page content check
